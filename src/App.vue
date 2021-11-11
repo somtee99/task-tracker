@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <Header title="Task Tracker"></Header>
+    <Header @toggle-add-task="toggleAddTask" title="Task Tracker" :showAddTask="showAddTask" />
+    <AddTask v-show="showAddTask" @add-task="addTask" /> 
     <Tasks @delete-task="deleteTask" 
     @toogle-reminder="toogleReminder" :tasks="tasks"/>
   </div>
@@ -9,18 +10,26 @@
 <script>
 import Header from './components/Header';
 import Tasks from './components/Tasks';
+import AddTask from './components/AddTask';
 
 export default {
   name: 'App',
   components: {
-    Header, Tasks
+    Header, Tasks, AddTask
   },
   data(){
     return {
-      tasks: []
+      tasks: [],
+      showAddTask: false
     }
   },
   methods: {
+    toggleAddTask(){
+      this.showAddTask = !this.showAddTask
+    },
+    addTask(task){
+      this.tasks = [...this.tasks, task];
+    },
     deleteTask(id){
       if(confirm('Are you sure you want to delete this task?')){
         this.tasks = this.tasks.filter((task) => task.id !== id);
