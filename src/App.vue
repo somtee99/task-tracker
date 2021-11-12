@@ -42,28 +42,21 @@ export default {
           : task
       )
     },
+    async fetchTasks(){
+      const res = await fetch('api/tasks');
+      const data = await res.json();
+
+      return data;
+    },
+    async fetchTask(id){
+      const res = await fetch(`api/tasks/${id}`);
+      const data = await res.json();
+
+      return data;
+    }
   },
-  created(){
-    this.tasks = [
-      {
-        id: 1,
-        text: 'Dentist Appointment',
-        day: 'September 20 at 12:00pm',
-        reminder: true
-      },
-      {
-        id: 2,
-        text: 'Drop Kids at School',
-        day: 'September 24 at 9:00am',
-        reminder: true
-      },
-      {
-        id: 3,
-        text: 'Guys Night Out',
-        day: 'September 30 at 10:00pm',
-        reminder: false
-      }
-    ];
+  async created(){
+    this.tasks = await this.fetchTasks();
   }
 }
 </script>
